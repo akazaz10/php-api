@@ -15,6 +15,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 4rem;
+    padding-top: 20px;
     
     background: #13171F;
     color: #F0F1F3;
@@ -28,10 +29,30 @@ body {
 header {
     h1 {
         font-size: 60px;
+        text-align: center;
+        background: #262e3f;
+        border-radius: 10px;
     }
 }
 
 .movies {
+    --card-width: 400px;
+    --gap-size: 30px; /* 1rem equivale 16px */
+    --num-cards: 5;
+    
+    /* Tamaño de todo el contenido: cards + gaps */
+    --content-width: calc((var(--card-width) * var(--num-cards)) + (var(--gap-size) * (var(--num-cards) - 1)));
+    
+    /* 
+        Lo que quiero que se mueva... el total del contenido menos el width del contenedor,
+        le añado en max(), por si la API no funciona y devuelva menos cards, así la animación 
+        no se va hacia otro lado. Ayuda un poco a contener eso, aunque si se rompe, fallará de 
+        igual manera.
+    */
+    --total-width: max(0px, calc(var(--content-width) - 1000px));
+
+
+
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -54,7 +75,7 @@ header {
     padding: 10px 30px;
     
 
-    overflow-x: auto;
+    overflow-x: hidden;
     scrollbar-width: none;
 
     
@@ -207,9 +228,210 @@ header {
 
 @keyframes moverContenido {
     0%, 100% { 
-        translate: 0px 0px; /* Posición original */
+        translate: 0px 0px; 
     }
     50% { 
-        translate: -1130px 0px; /* Se mueven 300px hacia la izquierda */
+        translate: calc(var(--total-width) * -1) 0px; 
     }
 }
+
+
+
+
+@media (width <= 768px) {
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 50px;
+        gap: 10rem;
+
+        max-width: 100vw;
+        overflow-x: hidden;
+
+        background: #13171F;
+        color: #F0F1F3;
+        font-family: 'Courier New', Courier, monospace;
+
+    }    
+
+    main {
+        width: 100%;
+        max-width: 100vw;
+    }
+
+
+    header {
+        h1 {
+            
+            font-size: 32px;
+            text-align: center;
+            background: #262e3f;
+            
+            
+        }
+    }
+
+    .movies {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 15px;
+        align-items: center;
+
+        padding-top: 50px;
+        padding-bottom: 10px;
+
+
+
+        gap: 2rem;
+        background: #444;
+
+        width: 100%;
+        height: 700px;
+        
+        
+
+        overflow-x: auto;
+        scrollbar-width: none;
+        
+
+        .text {
+            /* align-self: flex-start; */
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            font-size: 30px;
+            top: 290px;
+        }        
+
+        .card {
+
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+            background: #191919;
+            min-width: 280px;
+            
+            height: 560px;
+            padding: 20px;
+            border-radius: 10px;
+
+            filter: grayscale(0%);
+
+            animation: none;
+
+            
+        }
+
+
+        &.marvel {
+
+            background: #991532;
+            color: rgb(201, 197, 203);
+            -webkit-text-stroke: 0.4px rgb(6, 123, 149);
+            position: relative;
+            border-radius: 50px;
+            /* transform: scale(1.1);
+            filter: grayscale(0%);  */
+                
+
+
+        }
+
+        &.dc {
+
+
+            background: #2B2A1D;
+            color: rgb(201, 197, 203);
+            
+            position: relative;
+            /* transform: scale(1.1);
+            filter: grayscale(0%);   */
+            
+        
+        }
+
+        &.batman {
+
+
+            background: #000;
+            color: #A81205;
+            -webkit-text-stroke: 0.2px rgb(156, 150, 156);
+            position: relative;
+            /* transform: scale(1.1);
+            filter: grayscale(0%);  */
+                 
+            
+
+
+        }
+
+        &.sp {
+
+
+            background: rgb(26, 7, 92);
+            
+            color: rgb(201, 197, 203);
+            -webkit-text-stroke: 0.4px rgb(137, 6, 126);
+            position: relative;
+            /* transform: scale(1.1);
+            filter: grayscale(0%);
+                    */
+
+
+        }
+
+        &.starwars {
+
+
+            background-color: #030303;
+            background-image: 
+                radial-gradient(rgba(254, 254, 254, 0.749) 0.8px, transparent 3px),
+                radial-gradient(rgba(254, 254, 254, 0.749) 0.5px, transparent 1.4px);
+            background-size: 40px 40px;
+            
+            background-position: 0 0, 20px 20px;
+            color: #F0F1F3;
+            -webkit-text-stroke: 0.1px gold;
+            position: relative;
+            /* transform: scale(1.1);
+            filter: grayscale(0%);    */
+            
+        
+ 
+
+        }        
+
+
+
+
+
+
+    }
+
+
+    footer {
+        h3 {
+            text-align: center;
+        }
+    }
+    
+
+
+
+}
+
