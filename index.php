@@ -1,34 +1,56 @@
 <?php
 
-
-const API_URL = "https://whenisthenextmcufilm.com/api";
-
-# Inicializaremos una nueva sesión de cURL; ch = cURL handle
-
-$ch = curl_init(API_URL);
-
-// Indicamos que queremos recibir el resultado de la petición y no mostrarla en pantalla
-
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-/* 
-    Ejecutamos la  petición
-    y guardamos los resultados
-*/
-
-$result = curl_exec($ch);
+// tienen próximos títulos - a la fecha del commit
+const API_URL_MARVEL = "https://whenisthenextmcufilm.com/api";
+const API_URL_DC = "https://www.whenisthenextmcufilm.com/api?list_id=8563041";
 
 
+// no tienen próximos títulos - a la fecha del commit
+const API_URL_STWARS = "https://www.whenisthenextmcufilm.com/api?list_id=8563040";
+const API_URL_BM = "https://www.whenisthenextmcufilm.com/api?list_id=8563043";
+const API_URL_SP = "https://www.whenisthenextmcufilm.com/api?list_id=8635684";
 
-// Una alternativa sería utilizar file_get_contents
-// $result = file_get_contents(API_URL);  ----> Solo sí quieres hacer un GET de una API
+
+// 1ra llamada: Marvel
+
+$ch_marvel = curl_init(API_URL_MARVEL);
+curl_setopt($ch_marvel, CURLOPT_RETURNTRANSFER, true);
+$result_marvel = curl_exec($ch_marvel);
+$data_marvel = json_decode($result_marvel, true);
 
 
-/* Transformamos el json del resultado */
+// 2da llamada: Star_Wars
 
-$data = json_decode($result, true);
+$ch_starwars = curl_init(API_URL_STWARS);
+curl_setopt($ch_starwars, CURLOPT_RETURNTRANSFER, true);
+$result_starwars = curl_exec($ch_starwars);
+$data_starwars = json_decode($result_starwars, true);
 
-// curl_close($ch);
+
+// 3ra llamada: DC
+
+
+$ch_dc = curl_init(API_URL_DC);
+curl_setopt($ch_dc, CURLOPT_RETURNTRANSFER, true);
+$result_dc = curl_exec($ch_dc);
+$data_dc = json_decode($result_dc, true);
+
+// 4ta llamada: MR Batman
+
+
+$ch_batman = curl_init(API_URL_BM);
+curl_setopt($ch_batman, CURLOPT_RETURNTRANSFER, true);
+$result_batman = curl_exec($ch_batman);
+$data_batman = json_decode($result_batman, true);
+
+// 5ta llamada: SP 
+
+$ch_sp = curl_init(API_URL_SP);
+curl_setopt($ch_sp, CURLOPT_RETURNTRANSFER, true);
+$result_sp = curl_exec($ch_sp);
+$data_sp = json_decode($result_sp, true);
+
+
 
 
 
@@ -44,67 +66,136 @@ $data = json_decode($result, true);
     <meta name="description" content="La próxima película de Marvel">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¿Siguiente?</title>
-    <link
+    <link rel="stylesheet" href="./index.css">
+    <!-- <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
-    >
-
-    <style>
-        :root {
-            color-scheme: light dark;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        img {
-            margin: 0 auto;
-        }
-
-        section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        hgroup {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    > -->
 
 </head>
 <body>
     <!-- <pre style="font-size: 12.5px; overflow: scroll; height: 250px;">
-        <?php var_dump($data); ?>
+        <?php var_dump($data_marvel); ?>
+    </pre>
+    <br>
+    <pre style="font-size: 12.5px; overflow: scroll; height: 250px;">
+        <?php var_dump($data_batman); ?>
+    </pre>
+    <br>
+    <pre style="font-size: 12.5px; overflow: scroll; height: 250px;">
+        <?php var_dump($data_dc); ?>
+    </pre>
+    <br>
+    <pre style="font-size: 12.5px; overflow: scroll; height: 250px;">
+        <?php var_dump($data_starwars); ?>
+    </pre>
+    <br>
+    <pre style="font-size: 12.5px; overflow: scroll; height: 250px;">
+        <?php var_dump($data_sp); ?>
     </pre> -->
+  
+
+    <header>
+        <h1>CARTELERA - PRÓXIMOS ESTRENOS</h1>
+        <p> </p>
+    </header>
+
     <main>
 
-        <section>
-            <img 
-                src="<?= $data["poster_url"] ?>" 
-                alt="poster de <?= $data["title"] ?>" 
-                width="300"
-                style="border-radius: 16px;"
-            >
-        </section>
+        <div class="container"></div>
 
-        <hgroup>
-            <h3><?= $data["title"] ?> se estrena en <?= $data["days_until"] ?> días</h3>
-            <p>Fecha de estreno: <?=  $data["release_date"] ?> </p>
 
-            <p>La siguiente es <?= $data["following_production"]["title"] ?></p>
-        </hgroup>
+        <div class="movies">
+
+            <p class="text"><strong>Películas más esperadas</strong></p>
+
+            
+
+            
+
+            <div class="card">
+                <img 
+                    src="<?= $data_marvel["poster_url"] ?>" 
+                    alt="poster de <?= $data_marvel["title"] ?>"
+                >
+
+                <hgroup>
+                    <h3><?= $data_marvel["title"] ?> se estrena en <?= $data_marvel["days_until"] ?> días.</h3>
+                    <br>
+                    <p>La siguiente en estrenarse es: <strong> <?= $data_marvel["following_production"]["title"] ?? "No anunciada" ?> </strong></p>
+                </hgroup>
+            </div>
+
+            <div class="card">
+
+                <img 
+                    src="<?= $data_dc["poster_url"] ?>" 
+                    alt="poster de <?= $data_dc["title"] ?>"
+                >
+
+                <hgroup>
+                    <h3><?= $data_dc["title"] ?> se estrena en <?= $data_dc["days_until"] ?> días.</h3>
+                    <br>
+                    <p>La siguiente en estrenarse es: <strong> <?= $data_dc["following_production"]["title"] ?? "No anunciada" ?> </strong></p>
+                </hgroup>
+
+            </div>
+
+            <div class="card">
+
+                <img 
+                    src="<?= $data_batman["poster_url"] ?>" 
+                    alt="poster de <?= $data_batman["title"] ?>"
+                >
+
+                <hgroup>
+                    <h3><?= $data_batman["title"] ?> se estrena en <?= $data_batman["days_until"] ?> días.</h3>
+                    <br>
+                    <p>La siguiente en estrenarse es: <strong> <?= $data_batman["following_production"]["title"] ?? "No anunciada" ?> </strong></p>
+                </hgroup>
+
+            </div>
+
+            <div class="card">
+
+                <img 
+                    src="<?= $data_sp["poster_url"] ?>" 
+                    alt="poster de <?= $data_sp["title"] ?>"
+                >
+
+                <hgroup>
+                    <h3><?= $data_sp["title"] ?> se estrena en <?= $data_sp["days_until"] ?> días.</h3>
+                    <br>
+                    <p>La siguiente en estrenarse es: <strong> <?= $data_sp["following_production"]["title"] ?? "No anunciada"  ?> </strong></p>
+                </hgroup>
+
+            </div>
+
+            <div class="card">
+
+                <img 
+                    src="<?= $data_starwars["poster_url"] ?>" 
+                    alt="poster de <?= $data_starwars["title"] ?>"
+                >
+
+                <hgroup>
+                    <h3><?= $data_starwars["title"] ?> se estrena en <?= $data_starwars["days_until"] ?> días.</h3>
+                    <br>
+                    <p>La siguiente en estrenarse es: <strong> <?= $data_starwars["following_production"]["title"] ?? "No anunciada" ?> </strong></p>
+                </hgroup>
+
+            </div>
+
+        
+
+        </div>
 
     </main>
+
+    <footer>
+        <h3>© Todos los derechos reservados... los izquierdos también.</h3>
+    </footer>
+
+
 </body>
 </html>
-
-
-
