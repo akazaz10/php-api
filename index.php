@@ -113,7 +113,7 @@ $data_sp = json_decode($result_sp, true);
 
             
 
-            <div class="card">
+            <div class="card marvel">
                 <img 
                     src="<?= $data_marvel["poster_url"] ?>" 
                     alt="poster de <?= $data_marvel["title"] ?>"
@@ -126,7 +126,7 @@ $data_sp = json_decode($result_sp, true);
                 </hgroup>
             </div>
 
-            <div class="card">
+            <div class="card dc">
 
                 <img 
                     src="<?= $data_dc["poster_url"] ?>" 
@@ -141,7 +141,7 @@ $data_sp = json_decode($result_sp, true);
 
             </div>
 
-            <div class="card">
+            <div class="card batman">
 
                 <img 
                     src="<?= $data_batman["poster_url"] ?>" 
@@ -156,7 +156,7 @@ $data_sp = json_decode($result_sp, true);
 
             </div>
 
-            <div class="card">
+            <div class="card sp">
 
                 <img 
                     src="<?= $data_sp["poster_url"] ?>" 
@@ -171,7 +171,7 @@ $data_sp = json_decode($result_sp, true);
 
             </div>
 
-            <div class="card">
+            <div class="card starwars">
 
                 <img 
                     src="<?= $data_starwars["poster_url"] ?>" 
@@ -186,7 +186,7 @@ $data_sp = json_decode($result_sp, true);
 
             </div>
 
-        
+            
 
         </div>
 
